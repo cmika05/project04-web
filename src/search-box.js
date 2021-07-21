@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, {useState, useEffect} from 'react';
 
 function SearchBox(props) {
@@ -16,10 +17,10 @@ function SearchBox(props) {
     const onStockSymbolChange = async (event) => {
         setStockSymbol(event.currentTarget.value)
     };
-
+    // ${process.env.REACT_APP_API_URL}
     const searchStock = async () => {
         // template literals - javascript
-        let res = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/search/${stockSymbol}`) // GET request by default
+        let res = await fetch(`http://localhost:3000/api/v1/search/${stockSymbol}`) // GET request by default
         let data = await res.json()
         console.log('data is', data)
         setResult({symbol: stockSymbol, price: data.price})
@@ -27,7 +28,7 @@ function SearchBox(props) {
 
     const buyStock = async () => {
         let info = {symbol: result.symbol, quantity: quantity, price: result.price}
-        let res = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/portfolio`, {
+        let res = await fetch(`http://localhost:3000/api/v1/portfolio`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +55,7 @@ function SearchBox(props) {
                     <div className={'col-span-12 md:col-span-6'}>
                         <input value={stockSymbol} onChange={onStockSymbolChange} type="search" className={'border w-2/3 mr-4 p-1 rounded-r-2xl rounded-l-2xl'}/>
 
-                        <button onClick={searchStock} className={'px-6 bg-blue-600 text-white rounded py-2 mr-3'}>Search</button>
+                        <button onClick={searchStock} className={'px-6 bg-blue-900 text-white rounded py-2 mr-3 font-bold'}>Search</button>
                     </div>
 
                     <div className={'hidden md:col-span-6 md:block'}>
@@ -63,7 +64,7 @@ function SearchBox(props) {
 
                     <div className={'col-span-12 md:col-span-6 mt-5 text-center md:text-left'}>
                         <h1 className={'text-2xl font-bold tracking-wider'}>{result.symbol}</h1>
-                        {result && <h4 className={'text-lg font-medium text-gray-600'}>${result.price}</h4>}
+                        {result && <h4 className={'text-lg font-medium text-gray-900'}>${result.price}</h4>}
                     </div>
 
                     <div className={'col-span-12 md:col-span-6 mt-5 flex justify-center'}>
@@ -71,7 +72,7 @@ function SearchBox(props) {
 
                         {result.symbol && <input onChange={(event) =>  setQuantity(event.currentTarget.value)} type="number" className={'border mr-4'}/>}
 
-                        <button className={'px-6 bg-blue-600 text-white rounded py-3 mr-4'} onClick={buyStock}>Buy</button>
+                        <button className={'px-6 bg-green-700 text-white rounded py-3 mr-4 font-bold'} onClick={buyStock}>Buy</button>
 
 
 
